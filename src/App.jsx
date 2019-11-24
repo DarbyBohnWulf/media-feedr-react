@@ -1,8 +1,10 @@
 import React from 'react';
+import './App.css';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import './App.css';
+
+import LoginForm from './LoginForm';
 
 class App extends React.Component {
   constructor(props) {
@@ -15,7 +17,7 @@ class App extends React.Component {
   render() {
     const userStuff = this.state.loggedIn
       ? <Typography>Welcome, User</Typography>
-      : <Typography component='h2'>Login Goes Here</Typography>
+      : <LoginForm />
     return (
       <Grid
         container
