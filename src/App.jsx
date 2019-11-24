@@ -66,17 +66,20 @@ class App extends React.Component {
     return (
       <Grid
         container
+        spacing={1}
         justify='center'
         alignItems='stretch' >
-        <Grid item>
+        <Grid item xs={6} >
           <Paper>
-            <h1>User-y Things</h1>
+            <Typography variant='h3' >User-y Things</Typography>
             {userStuff}
           </Paper>
         </Grid>
-        <Paper>
-          <h1>Bars</h1>
-        </Paper>
+        <Grid item xs={6} >
+          <Paper>
+            <Typography variant='h3' >Bars</Typography>
+          </Paper>
+        </Grid>
       </Grid>
     );
   }
