@@ -9,7 +9,8 @@ class LoginForm extends React.Component {
     this.state = {
       username: '',
       email: '',
-      password: ''
+      password: '',
+      action: 'login'
     }
   }
 
@@ -19,9 +20,29 @@ class LoginForm extends React.Component {
     });
   }
 
+  handleSubmit = e => {
+    e.preventDefault();
+    this.loginOrRegister();
+  }
+
+  loginOrRegister() {
+    if (this.state.action === 'login') {
+      this.props.login({
+        email: this.state.email,
+        password: this.state.password
+      });
+    } else {
+      this.props.register({
+        username: this.state.username,
+        email: this.state.email,
+        password: this.state.password
+      });
+    }
+  }
+
   render() {
     return (
-      <form>
+      <form onSubmit={this.handleSubmit} >
         <FormLabel>Username: </FormLabel>
         <Input
           type='text'

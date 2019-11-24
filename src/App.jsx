@@ -10,14 +10,36 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedIn: false
+      loggedIn: false,
+      apiUrl: 'http://localhost:8000/api/v1',
+      currentUser: {}
+    }
+  }
+
+  login = async userInfo => {
+    const response = await fetch(this.state.apiUrl + '/user/login', {
+      method: 'POST',
+      body: JSON.stringify(userInfo),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const parsedResponse = await response.json();
+    if (parsedResponse.status.code === 200) {
+      this.setState({
+        loggedIn: true,
+        currentUser: parsedResponse.data
+      });
+    } else {
+      console.log("Couldn't authenticate.");
+      console.log(parsedResponse);
     }
   }
 
   render() {
     const userStuff = this.state.loggedIn
       ? <Typography>Welcome, User</Typography>
-      : <LoginForm />
+      : <LoginForm apiUrl={this.state.apiUrl} login={this.login} />
     return (
       <Grid
         container
