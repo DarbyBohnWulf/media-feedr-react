@@ -36,10 +36,33 @@ class App extends React.Component {
     }
   }
 
+  register = async userInfo => {
+    const response = await fetch(this.state.apiUrl + '/user/register', {
+      method: 'POST',
+      body: JSON.stringify(userInfo),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const parsedResponse = await response.json();
+    if (parsedResponse.status.code === 201) {
+      this.setState({
+        loggedIn: true,
+        currentUser: parsedResponse.data
+      });
+    } else {
+      console.log("Couldn't register.");
+      console.log(parsedResponse);
+    }
+  }
+
   render() {
     const userStuff = this.state.loggedIn
-      ? <Typography>Welcome, User</Typography>
-      : <LoginForm apiUrl={this.state.apiUrl} login={this.login} />
+      ? <Typography>Welcome, {this.state.currentUser.username} </Typography>
+      : <LoginForm
+          apiUrl={this.state.apiUrl}
+          login={this.login}
+          register={this.register} />
     return (
       <Grid
         container

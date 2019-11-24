@@ -2,6 +2,7 @@ import React from 'react';
 import FormLabel from '@material-ui/core/FormLabel';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -40,15 +41,33 @@ class LoginForm extends React.Component {
     }
   }
 
+  switchAction = () => {
+    this.state.action === 'login'
+      ? this.setState({ action: 'register' })
+      : this.setState({ action: 'login' })
+  }
+
   render() {
+    const authMessage = this.state.action === 'login'
+      ? <Typography>
+          Need an account? Click <span onClick={this.switchAction}>here</span> to register.
+        </Typography>
+      : <Typography>
+          Already have an account? Click <span onClick={this.switchAction}>here</span> to login.
+        </Typography>
+      const usernameField = this.state.action === 'login'
+        ? undefined
+        : <>
+            <FormLabel>Username: </FormLabel>
+            <Input
+              type='text'
+              name='username'
+              value={this.state.username}
+              onChange={this.handleChange} /><br/>
+          </>
     return (
       <form onSubmit={this.handleSubmit} >
-        <FormLabel>Username: </FormLabel>
-        <Input
-          type='text'
-          name='username'
-          value={this.state.username}
-          onChange={this.handleChange} /><br/>
+        {usernameField}
         <FormLabel>E-Mail: </FormLabel>
         <Input
           type='email'
@@ -61,7 +80,10 @@ class LoginForm extends React.Component {
           name='password'
           value={this.state.password}
           onChange={this.handleChange} /><br/>
-        <Button type='submit'>Login</Button>
+        <Button type='submit'>
+          {this.state.action === 'login' ? 'Login' : 'Register'}
+        </Button>
+        {authMessage}
       </form>
     )
   }
