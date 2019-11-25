@@ -7,7 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import TextField from '@material-ui/core/TextField';
-import { Button } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 
 class MovieSearchModal extends React.Component {
   constructor(props) {
@@ -15,7 +15,8 @@ class MovieSearchModal extends React.Component {
     this.state = {
       titleQuery: '',
       tmdbApiPrefix: 'https://api.themoviedb.org/3/search',
-      searchType: 'movie'
+      searchType: 'movie',
+      results: []
     }
   }
 
@@ -31,12 +32,28 @@ class MovieSearchModal extends React.Component {
       : this.setState({ searchType: 'movie' })
   }
 
+  searchTmdb = async () => {
+    const searchUrl = 
+      this.state.tmdbApiPrefix
+      + '/'
+      + this.state.searchType
+      + '?'
+      + 'api_key='
+      + process.env.REACT_APP_TMDB_API_KEY
+      + '&'
+      + 'query='
+      + this.state.titleQuery
+    const response = await fetch(searchUrl);
+    const parsedResponse = await response.json();
+    this.setState({ results: parsedResponse.results });
+  }
+
   render() {
     const searchTypeHint = this.state.searchType === 'movie'
-      ? <Typography variant='subtitle2' onClick={this.switchSearch}>
+      ? <Typography variant='subtitle2' onClick={this.switchSearch} >
           Click here to find a series instead.
         </Typography>
-      : <Typography variant='subtitle2' onClick={this.switchSearch}>
+      : <Typography variant='subtitle2' onClick={this.switchSearch} >
           Click here to find a film instead.
         </Typography>
     return (
@@ -63,7 +80,7 @@ class MovieSearchModal extends React.Component {
           </CardContent>
           <CardActionArea>
             <CardActions>
-              <Button color="primary" >Search</Button>
+              <Button color="primary" onClick={this.searchTmdb}>Search</Button>
               <Button color="secondary" onClick={this.props.onClose} >Cancel</Button>
             </CardActions>
           </CardActionArea>
