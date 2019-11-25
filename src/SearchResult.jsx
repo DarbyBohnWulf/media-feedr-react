@@ -7,8 +7,13 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
+  // card: {
+  //   display: 'flex',
+  // },
+  // TODO: make these prettier
   media: {
     height: 278,
+    width: 185,
   },
 }));
 
