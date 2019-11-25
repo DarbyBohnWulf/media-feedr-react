@@ -1,13 +1,13 @@
 import React from 'react';
-import Modal from '@material-ui/core/Modal';
-import Card from '@material-ui/core/Card';
+import SearchResult from './SearchResult';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
 class MovieSearchModal extends React.Component {
   constructor(props) {
@@ -56,36 +56,40 @@ class MovieSearchModal extends React.Component {
       : <Typography variant='subtitle2' onClick={this.switchSearch} >
           Click here to find a film instead.
         </Typography>
+    const results = this.state.results.map(r => {
+      return <Grid item key={r.id}><SearchResult result={r} /></Grid>
+    });
     return (
-      <Modal
+      <Dialog
         open={this.props.searching}
         onClose={this.props.onClose}
-        >
-        <Card>
-          <CardHeader
-            title={
-              this.state.searchType === 'movie'
-                ? "Search For a Film"
-                : "Search For a Series"
-            }
-            subheader="powered by TheMovieDatabase.com" />
-          <CardContent>
-            <TextField
-              label="Search"
-              name="titleQuery"
-              value={this.state.titleQuery}
-              variant="outlined"
-              onChange={this.handleChange} />
-            {searchTypeHint}
-          </CardContent>
-          <CardActionArea>
-            <CardActions>
-              <Button color="primary" onClick={this.searchTmdb}>Search</Button>
-              <Button color="secondary" onClick={this.props.onClose} >Cancel</Button>
-            </CardActions>
-          </CardActionArea>
-        </Card>
-      </Modal>
+        scroll='paper'
+        aria-labelledby='movie-search-modal-title' >
+        <DialogTitle id="movie-search-modal-title" >
+          {
+            this.state.searchType === 'movie'
+              ? "Search For a Film"
+              : "Search For a Series"
+          }
+        </DialogTitle>
+        <DialogContent>
+          <TextField
+            label="Search"
+            name="titleQuery"
+            value={this.state.titleQuery}
+            variant="outlined"
+            onChange={this.handleChange}
+            onSubmit={this.searchTmdb} />
+          {searchTypeHint}
+          <Grid container spacing={2} >
+            {results}
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button color="primary" onClick={this.searchTmdb}>Search</Button>
+          <Button color="secondary" onClick={this.props.onClose} >Cancel</Button>
+        </DialogActions>
+      </Dialog>
     )
   }
 }
