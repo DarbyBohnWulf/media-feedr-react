@@ -26,7 +26,8 @@ class UserContainer extends React.Component {
       <Paper>
         <MovieSearchModal
           searching={this.state.searching}
-          onClose= {this.closeModal} />
+          onClose= {this.closeModal}
+          userId={this.state.currentUser.id} />
         <Typography>Welcome, {this.state.currentUser.username} </Typography>
         <Button
           onClick={this.startSearching} >

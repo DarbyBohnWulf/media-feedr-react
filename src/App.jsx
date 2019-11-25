@@ -20,6 +20,7 @@ class App extends React.Component {
 
   login = async userInfo => {
     const response = await fetch(this.state.apiUrl + '/user/login', {
+      credentials: 'include',
       method: 'POST',
       body: JSON.stringify(userInfo),
       headers: {
@@ -40,6 +41,7 @@ class App extends React.Component {
 
   register = async userInfo => {
     const response = await fetch(this.state.apiUrl + '/user/register', {
+      credentials: 'include',
       method: 'POST',
       body: JSON.stringify(userInfo),
       headers: {
