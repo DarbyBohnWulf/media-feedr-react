@@ -5,6 +5,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 import LoginForm from './LoginForm';
+import UserContainer from './UserContainer';
+import MovieContainer from './MovieContainer';
 
 class App extends React.Component {
   constructor(props) {
@@ -58,7 +60,7 @@ class App extends React.Component {
 
   render() {
     const userStuff = this.state.loggedIn
-      ? <Typography>Welcome, {this.state.currentUser.username} </Typography>
+      ? <UserContainer currentUser={this.state.currentUser} />
       : <LoginForm
           apiUrl={this.state.apiUrl}
           login={this.login}
@@ -77,7 +79,7 @@ class App extends React.Component {
         </Grid>
         <Grid item xs={6} >
           <Paper>
-            <Typography variant='h3' >Bars</Typography>
+            <MovieContainer loggedIn={this.state.loggedIn} />
           </Paper>
         </Grid>
       </Grid>
