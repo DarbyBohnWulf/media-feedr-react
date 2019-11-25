@@ -8,9 +8,16 @@ class UserContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: {},
-      searching: false
+      currentUser: this.props.currentUser,
+      searching: false,
+      apiPref: process.env.REACT_APP_API_PREFIX,
+      userLibrary: [],
+      userReviews: []
     }
+  }
+
+  componentDidMount() {
+    this.getLibrary(this.state.currentUser.id)
   }
 
   startSearching = () => {
@@ -19,6 +26,17 @@ class UserContainer extends React.Component {
 
   closeModal = () => {
     this.setState({ searching: false });
+  }
+
+  getLibrary = async userId => {
+    const library = await fetch(this.state.apiPref + '/viewership/' + userId, {
+      credentials: 'include'
+    });
+    const parsedLibrary = await library.json();
+    console.log(parsedLibrary.data)
+    this.setState({
+      userLibrary: [...parsedLibrary.data]
+    });
   }
 
   render() {
