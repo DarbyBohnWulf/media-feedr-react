@@ -32,11 +32,8 @@ function makeMediaFeedrShaped(tmdbData) {
     ? parseInt(release_date.split('-')[0])
     : 1999;
   feedrBite.genre = parseGenre(tmdbData.genre_ids[0])
-    // ? parseGenre(tmdbData.genre[0])
-    // : ''
   feedrBite.poster_url = tmdbBaseUrl + tmdbData.poster_path;
   feedrBite.external_id = tmdbData.id;
-  console.log("parsedBite\n", feedrBite)
   return feedrBite
 }
 
