@@ -1,5 +1,8 @@
 import React from 'react';
+import MovieSearchModal from './MovieSearchModal';
 import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 
 class UserContainer extends React.Component {
   constructor(props) {
@@ -10,9 +13,26 @@ class UserContainer extends React.Component {
     }
   }
 
+  startSearching = () => {
+    this.setState({ searching: true });
+  }
+
+  closeModal = () => {
+    this.setState({ searching: false });
+  }
+
   render() {
     return (
-      <Typography>Welcome, {this.state.currentUser.username} </Typography>
+      <Paper>
+        <MovieSearchModal
+          searching={this.state.searching}
+          onClose= {this.closeModal} />
+        <Typography>Welcome, {this.state.currentUser.username} </Typography>
+        <Button
+          onClick={this.startSearching} >
+          Add A New Film
+        </Button>
+      </Paper>
     )
   }
 }
