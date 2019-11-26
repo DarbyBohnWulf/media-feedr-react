@@ -13,7 +13,8 @@ class UserContainer extends React.Component {
       searching: false,
       apiPref: process.env.REACT_APP_API_PREFIX,
       userLibrary: [],
-      userReviews: []
+      userReviews: [],
+      own: this.props.own
     }
   }
 
@@ -126,16 +127,23 @@ class UserContainer extends React.Component {
           onClose= {this.closeModal}
           userId={this.state.currentUser.id}
           addToLibrary={this.addToLibrary} />
-        <Typography>Media Added By {this.state.currentUser.username}</Typography>
+        <Typography variant='h4' >
+          Media Added By {this.state.currentUser.username}
+        </Typography>
         <MovieList
           library={this.state.userLibrary}
           reviews={this.state.userReviews}
           delete={this.removeViewership}
-          addReview={this.addReview} />
-        <Button
-          onClick={this.startSearching} >
-          Add A New Film
-        </Button>
+          addReview={this.addReview}
+          own={this.state.own} />
+        {
+          this.state.own
+            ? <Button
+                onClick={this.startSearching} >
+                Add A New Film
+              </Button>
+            : null
+        }
       </Paper>
     )
   }

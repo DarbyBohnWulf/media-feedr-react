@@ -13,8 +13,10 @@ class App extends React.Component {
     super(props);
     this.state = {
       loggedIn: false,
-      apiUrl: 'http://localhost:8000/api/v1',
-      currentUser: {}
+      loggedUser: {},
+      apiUrl: process.env.REACT_APP_API_PREFIX,
+      currentUser: {},
+      currentMedia: {}
     }
   }
 
@@ -31,6 +33,7 @@ class App extends React.Component {
     if (parsedResponse.status.code === 200) {
       this.setState({
         loggedIn: true,
+        loggedUser: parsedResponse.data,
         currentUser: parsedResponse.data
       });
     } else {
@@ -52,6 +55,7 @@ class App extends React.Component {
     if (parsedResponse.status.code === 201) {
       this.setState({
         loggedIn: true,
+        loggedUser: parsedResponse.data,
         currentUser: parsedResponse.data
       });
     } else {
@@ -60,13 +64,40 @@ class App extends React.Component {
     }
   }
 
+  showUser = userObj => {
+    this.setState({
+      currentUser: userObj
+    });
+  }
+
+  showMedia = async mediaId => {
+    const mediaUrl = this.state.apiUrl + '/media/' + mediaId;
+    const mediaResponse = await fetch(mediaUrl);
+    const parsedMedia = await mediaResponse.json();
+    this.setState({
+      currentMedia: parsedMedia.data
+    });
+  }
+
   render() {
     const userStuff = this.state.loggedIn
-      ? <UserContainer currentUser={this.state.currentUser} />
+      ? <UserContainer
+          currentUser={this.state.currentUser}
+          own={this.state.loggedUser === this.state.currentUser}
+          apiUrl={this.state.apiUrl}
+          showMedia={this.showMedia}
+          showUser={this.showUser} />
       : <LoginForm
           apiUrl={this.state.apiUrl}
           login={this.login}
           register={this.register} />
+    const mediaStuff = this.state.currentMedia.hasOwnProperty('id')
+      ? null
+      : <MovieContainer
+          loggedIn={this.state.loggedIn}
+          apiUrl={this.state.apiUrl}
+          showMedia={this.showMedia}
+          showUser={this.showUser} />
     return (
       <Grid
         container
@@ -74,14 +105,14 @@ class App extends React.Component {
         justify='center'
         alignItems='stretch' >
         <Grid item xs={5} >
-          <Paper>
-            <Typography variant='h3' >User-y Things</Typography>
+          <Paper
+            title='User Container' >
             {userStuff}
           </Paper>
         </Grid>
         <Grid item xs={5} >
           <Paper>
-            <MovieContainer loggedIn={this.state.loggedIn} />
+            {mediaStuff}
           </Paper>
         </Grid>
       </Grid>

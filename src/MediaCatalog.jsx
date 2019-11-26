@@ -1,10 +1,10 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import MovieItem from './MovieItem';
+import MediaItem from './MediaItem';
 
 
-function MovieList(props) {
+function MediaCatalog(props) {
   const combinedProps = props.library.map(l => {
     const combinable = props.reviews.find(r => r.media_id.id === l.id)
     l = combinable ? {...l,combinable} : l
@@ -12,12 +12,11 @@ function MovieList(props) {
   });
   const library = combinedProps.map(m => {
     return (
-      <MovieItem
-        own={props.own}
+      <MediaItem
         key={m.external_id}
         media={m}
         addReview={props.addReview}
-        deleteMedia={props.delete} />
+        showMedia={props.showMedia} />
     )
   });
 
@@ -29,4 +28,4 @@ function MovieList(props) {
   )
 }
 
-export default MovieList;
+export default MediaCatalog;

@@ -4,7 +4,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import CardActions from '@material-ui/core/CardActions';
+import CardActionArea from '@material-ui/core/CardActionArea';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import ReviewForm from './ReviewForm';
@@ -18,34 +18,27 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function MovieItem(props) {
+function MediaItem(props) {
   const classes = useStyles();
   const review = props.media.combinable
     ? <ReviewDisplay review={props.media.combinable} />
-    : <ReviewForm media_id={props.media.id} addReview={props.addReview} />
+    : null
   return (
     <Card>
-      <CardHeader
-        title={props.media.title}
-        subheader={props.media.year_of_release}
-        action={
-          <Button onClick={() => props.deleteMedia(props.media.id)}><DeleteIcon/></Button>
-        } />
-      <CardMedia
-        image={props.media.poster_url}
-        title={'Poster for ' + props.media.title}
-        className={classes.media} />
+      <CardActionArea onClick={() => props.showMedia(props.media.id)}>
+        <CardHeader
+          title={props.media.title}
+          subheader={props.media.year_of_release} />
+        <CardMedia
+          image={props.media.poster_url}
+          title={'Poster for ' + props.media.title}
+          className={classes.media} />
+      </CardActionArea>
       <CardContent>
         {review}
       </CardContent>
-      <CardActions>
-        {/* <Button
-          onClick={} >
-          Add to Library
-        </Button> */}
-      </CardActions>
     </Card>
   )
 }
 
-export default MovieItem;
+export default MediaItem;
