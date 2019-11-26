@@ -70,16 +70,16 @@ class App extends React.Component {
     return (
       <Grid
         container
-        spacing={1}
+        spacing={3}
         justify='center'
         alignItems='stretch' >
-        <Grid item xs={6} >
+        <Grid item xs={5} >
           <Paper>
             <Typography variant='h3' >User-y Things</Typography>
             {userStuff}
           </Paper>
         </Grid>
-        <Grid item xs={6} >
+        <Grid item xs={5} >
           <Paper>
             <MovieContainer loggedIn={this.state.loggedIn} />
           </Paper>

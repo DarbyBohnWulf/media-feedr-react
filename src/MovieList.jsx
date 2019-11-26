@@ -11,7 +11,13 @@ function MovieList(props) {
     return l
   });
   const library = combinedProps.map(m => {
-    return <MovieItem key={m.external_id} media={m} addReview={props.addReview} />
+    return (
+      <MovieItem
+        key={m.external_id}
+        media={m}
+        addReview={props.addReview}
+        deleteMedia={props.delete} />
+    )
   });
 
   return (

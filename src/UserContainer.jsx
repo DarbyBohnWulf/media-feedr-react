@@ -85,6 +85,22 @@ class UserContainer extends React.Component {
     }
   }
 
+  removeViewership = async mediaId => {
+    const removalUrl = this.state.apiPref + '/viewership/' + mediaId
+    const removalResponse = await fetch(removalUrl, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    if (removalResponse.status === 204) {
+      this.setState({
+        userLibrary: this.state.userLibrary.filter(l => l.id !== mediaId)
+      });
+    }
+  }
+
   addReview = async review => {
     const newReview = await fetch(this.state.apiPref + '/reviews/', {
       method: 'POST',
@@ -114,6 +130,7 @@ class UserContainer extends React.Component {
         <MovieList
           library={this.state.userLibrary}
           reviews={this.state.userReviews}
+          delete={this.removeViewership}
           addReview={this.addReview} />
         <Button
           onClick={this.startSearching} >

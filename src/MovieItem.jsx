@@ -6,9 +6,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import ReviewForm from './ReviewForm';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles(theme => ({
   media: {
@@ -26,7 +26,10 @@ function MovieItem(props) {
     <Card>
       <CardHeader
         title={props.media.title}
-        subheader={props.media.year_of_release} />
+        subheader={props.media.year_of_release}
+        action={
+          <Button onClick={() => props.deleteMedia(props.media.id)}><DeleteIcon/></Button>
+        } />
       <CardMedia
         image={props.media.poster_url}
         title={'Poster for ' + props.media.title}
