@@ -119,6 +119,24 @@ class UserContainer extends React.Component {
     }
   }
 
+  editReview = async review => {
+    const reviewUrl = this.state.apiPref + '/reviews/' + review.id;
+    const reviewResponse = await fetch(reviewUrl, {
+      method: 'PUT',
+      credentials: 'include',
+      body: JSON.stringify(review),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const parsedReview = await reviewResponse.json();
+    if (parsedReview.status.code === 200) {
+      this.setState({
+        userReviews: [...this.state.userReviews, parsedReview.data]
+      });
+    }
+  }
+
   render() {
     return (
       <Paper>
@@ -135,6 +153,7 @@ class UserContainer extends React.Component {
           reviews={this.state.userReviews}
           delete={this.removeViewership}
           addReview={this.addReview}
+          editReview={this.editReview}
           own={this.state.own} />
         {
           this.state.own

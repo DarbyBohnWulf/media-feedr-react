@@ -8,7 +8,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import ReviewForm from './ReviewForm';
-import ReviewDisplay from './ReviewDisplay';
+import EditReviewForm from './EditReviewForm';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles(theme => ({
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 function MovieItem(props) {
   const classes = useStyles();
   const review = props.media.combinable
-    ? <ReviewDisplay review={props.media.combinable} />
+    ? <EditReviewForm review={props.media.combinable} editReview={props.editReview} />
     : <ReviewForm media_id={props.media.id} addReview={props.addReview} />
   return (
     <Card>

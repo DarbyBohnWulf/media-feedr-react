@@ -17,7 +17,8 @@ function MovieList(props) {
         key={m.external_id}
         media={m}
         addReview={props.addReview}
-        deleteMedia={props.delete} />
+        deleteMedia={props.delete}
+        editReview={props.editReview} />
     )
   });
 
