@@ -44,7 +44,7 @@ class ReviewForm extends React.Component {
         </Select><br/>
         <FormLabel>Body: </FormLabel>
         <TextField
-          type='text'
+          multiline
           name='body'
           value={this.state.body}
           onChange={this.handleChange} /><br/>

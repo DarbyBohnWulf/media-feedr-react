@@ -16,7 +16,7 @@ function MovieList(props) {
 
   return (
     <Paper>
-      <Typography variant='h4'>Libary</Typography>
+      <Typography variant='h4'>Library</Typography>
       {library}
     </Paper>
   )

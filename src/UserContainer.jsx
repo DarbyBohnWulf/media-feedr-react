@@ -110,7 +110,7 @@ class UserContainer extends React.Component {
           onClose= {this.closeModal}
           userId={this.state.currentUser.id}
           addToLibrary={this.addToLibrary} />
-        <Typography>Welcome, {this.state.currentUser.username}!</Typography>
+        <Typography>Media Added By {this.state.currentUser.username}</Typography>
         <MovieList
           library={this.state.userLibrary}
           reviews={this.state.userReviews}
