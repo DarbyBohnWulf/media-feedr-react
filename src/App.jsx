@@ -6,6 +6,8 @@ import Paper from '@material-ui/core/Paper';
 import LoginForm from './LoginForm';
 import UserContainer from './UserContainer';
 import MovieContainer from './MovieContainer';
+import MediaShow from './MediaShow';
+import FeedrBar from './FeedrBar';
 
 class App extends React.Component {
   constructor(props) {
@@ -63,7 +65,7 @@ class App extends React.Component {
     }
   }
 
-  showUser = userObj => {
+  showUser = async userObj => {
     this.setState({
       currentUser: userObj
     });
@@ -76,6 +78,26 @@ class App extends React.Component {
     this.setState({
       currentMedia: parsedMedia.data
     });
+  }
+
+  showSelf = () => {
+    this.setState({
+      currentUser: this.state.loggedUser
+    });
+  }
+
+  logout = async () => {
+    const logoutUrl = this.state.apiUrl + '/user/logout'
+    const logoutResponse = await fetch(logoutUrl, {
+      credentials: 'include',
+    });
+    const parsedLogout = await logoutResponse.json();
+    if (parsedLogout.status.code = 200) {
+      this.setState({
+        loggedIn: false,
+        loggedUser: {}
+      });
+    }
   }
 
   render() {
@@ -91,7 +113,10 @@ class App extends React.Component {
           login={this.login}
           register={this.register} />
     const mediaStuff = this.state.currentMedia.hasOwnProperty('id')
-      ? null
+      ? <MediaShow
+          media={this.state.currentMedia}
+          showUser={this.showUser}
+          loggedIn={this.state.loggedIn} />
       : <MovieContainer
           loggedIn={this.state.loggedIn}
           apiUrl={this.state.apiUrl}
@@ -103,6 +128,10 @@ class App extends React.Component {
         spacing={3}
         justify='center'
         alignItems='stretch' >
+        <FeedrBar
+          loggedIn={this.state.loggedIn}
+          showSelf={this.showSelf}
+          logout={this.logout} />
         <Grid item xs={5} >
           <Paper
             title='User Container' >

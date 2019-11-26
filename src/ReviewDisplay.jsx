@@ -7,7 +7,11 @@ function ReviewDisplay(props) {
     <>
       {
         props.loggedIn
-          ? <Typography variant='caption' >{props.review.user_id.username} </Typography>
+          ? <Typography
+              variant='h5'
+              onClick={() => props.showUser(props.review.user_id)}>
+              {props.review.user_id.username}
+            </Typography>
           : null
       }
       {

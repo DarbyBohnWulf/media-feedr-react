@@ -3,7 +3,6 @@ import TextField from '@material-ui/core/TextField';
 import FormLabel from '@material-ui/core/FormLabel';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
-import Dialog from '@material-ui/core/Dialog';
 
 class EditReviewForm extends React.Component {
   constructor(props) {
