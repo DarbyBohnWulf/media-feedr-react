@@ -1,6 +1,6 @@
 import React from 'react';
+import TextField from '@material-ui/core/TextField';
 import FormLabel from '@material-ui/core/FormLabel';
-import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
@@ -59,7 +59,7 @@ class LoginForm extends React.Component {
         ? undefined
         : <>
             <FormLabel>Username: </FormLabel>
-            <Input
+            <TextField
               type='text'
               name='username'
               value={this.state.username}
@@ -69,13 +69,13 @@ class LoginForm extends React.Component {
       <form onSubmit={this.handleSubmit} >
         {usernameField}
         <FormLabel>E-Mail: </FormLabel>
-        <Input
+        <TextField
           type='email'
           name='email'
           value={this.state.email}
           onChange={this.handleChange} /><br/>
         <FormLabel>Password: </FormLabel>
-        <Input
+        <TextField
           type='password'
           name='password'
           value={this.state.password}

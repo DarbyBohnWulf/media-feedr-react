@@ -48,36 +48,6 @@ class MovieSearchModal extends React.Component {
     this.setState({ results: parsedResponse.results });
   }
 
-  addToLibrary = async mediaInfo => {
-    const mediaUrl = process.env.REACT_APP_API_PREFIX + '/media/';
-    const catalogResponse = await fetch(mediaUrl, {
-      method: 'POST',
-      credentials: 'include',
-      body: JSON.stringify(mediaInfo),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    const parsedCatalogResponse = await catalogResponse.json();
-    if (parsedCatalogResponse.status.code === 201) {
-      const viewershipUrl = process.env.REACT_APP_API_PREFIX + '/viewership/';
-      const viewrshipObj = {
-        media_id: parsedCatalogResponse.data.id,
-        user_id: this.props.userId
-      }
-      const viewershipResponse = await fetch(viewershipUrl, {
-        method: 'POST',
-        body: JSON.stringify(viewrshipObj),
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      const parsedViewershipRes = await viewershipResponse.json();
-      if (parsedViewershipRes.status.code === 201) this.props.onClose()
-    }
-  }
-
   render() {
     const searchTypeHint = this.state.searchType === 'movie'
       ? <Typography variant='subtitle2' onClick={this.switchSearch} >
@@ -89,7 +59,7 @@ class MovieSearchModal extends React.Component {
     const results = this.state.results.map(r => {
       return (
         <Grid item key={r.id}>
-          <SearchResult result={r} addToLibrary={this.addToLibrary} />
+          <SearchResult result={r} addToLibrary={this.props.addToLibrary} />
         </Grid>
       )
     });

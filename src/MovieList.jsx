@@ -10,7 +10,9 @@ function MovieList(props) {
     l = combinable ? {...l,combinable} : l
     return l
   });
-  const library = combinedProps.map(m => <MovieItem key={m.external_id} media={m} />);
+  const library = combinedProps.map(m => {
+    return <MovieItem key={m.external_id} media={m} addReview={props.addReview} />
+  });
 
   return (
     <Paper>

@@ -83,6 +83,9 @@ function parseGenre(genreId) {
 }
 
 function SearchResult(props) {
+  async function handleAdd(movieInfo) {
+    props.addToLibrary(movieInfo);
+  }
   const classes = useStyles();
   const title = props.result.title ? props.result.title : props.result.name
   const shapedData = makeMediaFeedrShaped(props.result);
@@ -102,7 +105,7 @@ function SearchResult(props) {
       </CardContent>
       <CardActions>
         <Button
-          onClick={() => props.addToLibrary(shapedData)} >
+          onClick={() => handleAdd(shapedData)} >
           Add to Library
         </Button>
       </CardActions>

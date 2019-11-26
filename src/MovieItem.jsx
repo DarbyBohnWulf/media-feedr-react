@@ -8,6 +8,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
+import ReviewForm from './ReviewForm';
 
 const useStyles = makeStyles(theme => ({
   media: {
@@ -20,7 +21,7 @@ function MovieItem(props) {
   const classes = useStyles();
   const review = props.media.combinable
     ? <Typography>{props.media.combinable.body}</Typography>
-    : <><TextField /><Button ></Button></>
+    : <ReviewForm media_id={props.media.id} addReview={props.addReview} />
   return (
     <Card>
       <CardHeader

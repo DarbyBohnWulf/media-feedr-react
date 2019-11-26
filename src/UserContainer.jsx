@@ -50,7 +50,57 @@ class UserContainer extends React.Component {
     });
   }
 
+  addToLibrary = async mediaInfo => {
+    const mediaUrl = process.env.REACT_APP_API_PREFIX + '/media/';
+    const catalogResponse = await fetch(mediaUrl, {
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify(mediaInfo),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const parsedCatalogResponse = await catalogResponse.json();
+    if (parsedCatalogResponse.status.code === 201) {
+      const viewershipUrl = process.env.REACT_APP_API_PREFIX + '/viewership/';
+      const viewrshipObj = {
+        media_id: parsedCatalogResponse.data.id,
+        user_id: this.state.currentUser.id
+      }
+      const viewershipResponse = await fetch(viewershipUrl, {
+        method: 'POST',
+        body: JSON.stringify(viewrshipObj),
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const parsedViewershipRes = await viewershipResponse.json();
+      if (parsedViewershipRes.status.code === 201) {
+        this.setState({
+          userLibrary: [...this.state.userLibrary, parsedCatalogResponse.data],
+          searching: false
+        });
+      }
+    }
+  }
 
+  addReview = async review => {
+    const newReview = await fetch(this.state.apiPref + '/reviews/', {
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify(review),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const parsedNewReview = await newReview.json();
+    if (parsedNewReview.status.code === 201) {
+      this.setState({
+        userReviews: [...this.state.userReviews,parsedNewReview.data]
+      });
+    }
+  }
 
   render() {
     return (
@@ -58,10 +108,13 @@ class UserContainer extends React.Component {
         <MovieSearchModal
           searching={this.state.searching}
           onClose= {this.closeModal}
-          userId={this.state.currentUser.id} />
+          userId={this.state.currentUser.id}
+          addToLibrary={this.addToLibrary} />
         <Typography>Welcome, {this.state.currentUser.username}!</Typography>
-        {/* {list} */}
-        <MovieList library={this.state.userLibrary} reviews={this.state.userReviews} />
+        <MovieList
+          library={this.state.userLibrary}
+          reviews={this.state.userReviews}
+          addReview={this.addReview} />
         <Button
           onClick={this.startSearching} >
           Add A New Film
