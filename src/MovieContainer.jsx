@@ -40,6 +40,7 @@ class MovieContainer extends React.Component {
         item >
         <Typography variant='h4' >Media Container</Typography>
         <MediaCatalog
+          loggedIn={this.state.loggedIn}
           showMedia={this.props.showMedia}
           reviews={this.state.reviewedMedia}
           library={this.state.media} />

@@ -16,7 +16,8 @@ function MediaCatalog(props) {
         key={m.external_id}
         media={m}
         addReview={props.addReview}
-        showMedia={props.showMedia} />
+        showMedia={props.showMedia}
+        loggedIn={props.loggedIn} />
     )
   });
 

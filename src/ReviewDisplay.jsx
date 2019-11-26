@@ -6,6 +6,11 @@ function ReviewDisplay(props) {
   return (
     <>
       {
+        props.loggedIn
+          ? <Typography variant='caption' >{props.review.user_id.username} </Typography>
+          : null
+      }
+      {
         [...Array(props.review.rating)].map((e,i) => {
           return <Grade key={props.review.media_id + '_' + i} />
         })
