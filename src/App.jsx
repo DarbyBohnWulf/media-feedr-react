@@ -92,7 +92,7 @@ class App extends React.Component {
       credentials: 'include',
     });
     const parsedLogout = await logoutResponse.json();
-    if (parsedLogout.status.code = 200) {
+    if (parsedLogout.status.code === 200) {
       this.setState({
         loggedIn: false,
         loggedUser: {}
